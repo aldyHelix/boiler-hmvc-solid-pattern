@@ -1,0 +1,169 @@
+{
+    "menu": [{
+            "name": "Dashboards",
+            "icon": "home",
+            "url": "dashboard/analytics",
+            "slug": "dashboard-analytics",
+            "permission": "dashboard"
+        },
+
+        {
+            "navheader": "Master Data",
+            "slug": ""
+        },
+        {
+            "url": "master/jobs",
+            "name": "Jobs",
+            "icon": "circle",
+            "slug": "master-jobs",
+            "permission": "master-jobs"
+        },
+        {
+            "url": "master/departments",
+            "name": "Departments",
+            "icon": "circle",
+            "slug": "master-departments",
+            "permission": "master-departments"
+        },
+        {
+            "url": "master/locations",
+            "name": "Locations",
+            "icon": "circle",
+            "slug": "master-locations",
+            "permission": "master-locations"
+        },
+
+        {
+            "navheader": "Employee",
+            "slug": ""
+        },
+        {
+            "name": "Employee",
+            "icon": "user",
+            "slug": "",
+            "submenu": [{
+                    "url": "app/user/list",
+                    "name": "List",
+                    "icon": "circle",
+                    "slug": "app-user-list"
+                },
+                {
+                    "url": "app/user/view",
+                    "name": "View",
+                    "icon": "circle",
+                    "slug": "app-user-view"
+                },
+                {
+                    "url": "app/user/edit",
+                    "name": "Edit",
+                    "icon": "circle",
+                    "slug": "app-user-edit"
+                }
+            ]
+        },
+
+        {
+            "navheader": "Work",
+            "slug": ""
+        },
+        {
+            "url": "work/task",
+            "name": "Tasks",
+            "icon": "circle",
+            "slug": "work-task",
+            "permission": "work-task"
+        },
+        {
+            "url": "work/target",
+            "name": "Target",
+            "icon": "circle",
+            "slug": "work-target",
+            "permission": "work-target",
+            "submenu": [{
+                    "url": "work/target/daily",
+                    "name": "Daily Target",
+                    "icon": "circle",
+                    "slug": "work-target-daily",
+                    "permission": "work-target-daily"
+                },
+                {
+                    "url": "work/target/monthly",
+                    "name": "Monthly Target",
+                    "icon": "circle",
+                    "slug": "work-target-Monthly",
+                    "permission": "work-target-monthly"
+                }
+            ]
+        },
+        {
+            "url": "work/output",
+            "name": "Work Output",
+            "icon": "circle",
+            "slug": "work-output",
+            "permission": "work-output"
+        },
+
+        {
+            "navheader": "Report",
+            "slug": ""
+        },
+        {
+            "url": "report",
+            "name": "Report",
+            "icon": "circle",
+            "slug": "report",
+            "permission": "report"
+        },
+        {
+            "navheader": "Manage",
+            "slug": ""
+        },
+        {
+            "url": "manage/user",
+            "name": "Users",
+            "icon": "circle",
+            "slug": "manage-user",
+            "permission": "manage-user"
+        },
+        {
+            "url": "manage/role",
+            "name": "Roles",
+            "icon": "circle",
+            "slug": "manage-role",
+            "permission": "manage-role"
+        },
+        {
+            "url": "manage/permission",
+            "name": "Permissions",
+            "icon": "circle",
+            "slug": "manage-permission",
+            "permission": "manage-permission"
+        },
+        {
+            "navheader": "Settings",
+            "slug": ""
+        },
+        {
+            "url": "settings/company",
+            "name": "Company",
+            "icon": "circle",
+            "slug": "settings-company",
+            "permission": "settings-company"
+        },
+        {
+            "url": "settings/global",
+            "name": "Parameters",
+            "icon": "circle",
+            "slug": "settings-global",
+            "permission": "settings-global"
+        },
+        {
+            "url": "settings/theme",
+            "name": "Theme",
+            "icon": "circle",
+            "slug": "settings-theme",
+            "permission": "settings-theme"
+        }
+
+    ]
+}
