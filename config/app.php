@@ -242,6 +242,7 @@ return [
         'Menu'      => Lavary\Menu\Facade::class,
         // custom theme helper
         'Helper' => App\Helpers\Helper::class,
+        'Button' => App\Helpers\Button::class,
     ],
 
 ];

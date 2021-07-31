@@ -10,7 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::prefix('permission')->group(function() {
-    Route::get('/', 'PermissionController@index');
+Route::group(['middleware' => ['auth'], 'prefix' => 'manage'], function() {
+    Route::group(['as' => 'manage', 'prefix' => 'permission'], function() {
+        Route::get('/', 'PermissionController@index')->name('-permission');
+        Route::get('/edit/{id}', 'PermissionController@edit')->name('-permission.edit');
+        Route::get('/view/{id}', 'PermissionController@view')->name('-permission.view');
+        Route::get('/delete/{id}', 'PermissionController@delete')->name('-permission.delete');
+    });
 });

@@ -1,21 +1,21 @@
 <?php
 
-namespace Modules\Permission\Providers;
+namespace Modules\Test\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class PermissionServiceProvider extends ServiceProvider
+class TestServiceProvider extends ServiceProvider
 {
     /**
      * @var string $moduleName
      */
-    protected $moduleName = 'Permission';
+    protected $moduleName = 'Test';
 
     /**
      * @var string $moduleNameLower
      */
-    protected $moduleNameLower = 'permission';
+    protected $moduleNameLower = 'test';
 
     /**
      * Boot the application events.
@@ -38,12 +38,6 @@ class PermissionServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
-        $this->app->bind(
-            //Skill modules
-            'Modules\Permission\Entities\PermissionInterface',
-			'Modules\Permission\Entities\PermissionRepository',
-            'Modules\Permission\Entities\PermissionService'
-		);
     }
 
     /**

@@ -37,7 +37,8 @@
             "Modules\\": "Modules/"
         },
         "files": [
-            "app/Helpers/helpers.php"
+            "app/Helpers/helpers.php",
+            "app/Helpers/buttons.php"
         ]
     },
     "autoload-dev": {

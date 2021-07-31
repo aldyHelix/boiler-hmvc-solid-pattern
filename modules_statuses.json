@@ -2,5 +2,6 @@
     "User": true,
     "Role": true,
     "Permission": true,
-    "Dashboard": true
+    "Dashboard": true,
+    "Test": true
 }

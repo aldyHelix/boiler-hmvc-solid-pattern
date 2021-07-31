@@ -49,10 +49,19 @@ $configData = Helper::applClasses();
       @if(isset($menuData[0]))
       @foreach($menuData[0]->menu as $menu)
       @if(isset($menu->navheader))
-      <li class="navigation-header">
-        <span>{{ __('locale.'.$menu->navheader) }}</span>
-        <i data-feather="more-horizontal"></i>
-      </li>
+        @if(isset($menu->permission))
+          @can($menu->permission)
+            <li class="navigation-header">
+              <span>{{ __('locale.'.$menu->navheader) }}</span>
+              <i data-feather="more-horizontal"></i>
+            </li>
+          @endcan
+        @else
+        <li class="navigation-header">
+          <span>{{ __('locale.'.$menu->navheader) }}</span>
+          <i data-feather="more-horizontal"></i>
+        </li>
+        @endif    
       @else
       {{-- Add Custom Class with nav-item --}}
       @php
@@ -61,19 +70,37 @@ $configData = Helper::applClasses();
       $custom_classes = $menu->classlist;
       }
       @endphp
-      <li class="nav-item {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }} {{ $custom_classes }}">
-        <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
-          <i data-feather="{{ $menu->icon }}"></i>
-          <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
-          @if (isset($menu->badge))
-          <?php $badgeClasses = "badge badge-pill badge-light-primary ml-auto mr-1" ?>
-          <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }} ">{{$menu->badge}}</span>
+      @if(isset($menu->permission))
+      @can($menu->permission)
+        <li class="nav-item {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }} {{ $custom_classes }}">
+          <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
+            <i data-feather="{{ $menu->icon }}"></i>
+            <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
+            @if (isset($menu->badge))
+            <?php $badgeClasses = "badge badge-pill badge-light-primary ml-auto mr-1" ?>
+            <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }} ">{{$menu->badge}}</span>
+            @endif
+          </a>
+          @if(isset($menu->submenu))
+          @include('panels/submenu', ['menu' => $menu->submenu])
           @endif
-        </a>
-        @if(isset($menu->submenu))
-        @include('panels/submenu', ['menu' => $menu->submenu])
-        @endif
-      </li>
+        </li>
+      @endcan
+      @else
+        <li class="nav-item {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }} {{ $custom_classes }}">
+          <a href="{{isset($menu->url)? url($menu->url):'javascript:void(0)'}}" class="d-flex align-items-center" target="{{isset($menu->newTab) ? '_blank':'_self'}}">
+            <i data-feather="{{ $menu->icon }}"></i>
+            <span class="menu-title text-truncate">{{ __('locale.'.$menu->name) }}</span>
+            @if (isset($menu->badge))
+            <?php $badgeClasses = "badge badge-pill badge-light-primary ml-auto mr-1" ?>
+            <span class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }} ">{{$menu->badge}}</span>
+            @endif
+          </a>
+          @if(isset($menu->submenu))
+          @include('panels/submenu', ['menu' => $menu->submenu])
+          @endif
+        </li>
+      @endif
       @endif
       @endforeach
       @endif
