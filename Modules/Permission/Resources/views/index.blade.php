@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap4.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap4.min.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
 @endsection
 
 @section('content')
@@ -29,9 +30,10 @@
             <table class="dt-row-grouping table">
               <thead>
                 <tr>
-                  <th></th>
+                  <th>#</th>
                   <th>Display Name</th>
                   <th>Permission Name</th>
+                  <th>Guard Name</th>
                   <th>Action</th>
                 </tr>
               </thead>
@@ -52,55 +54,41 @@
         </div>
         <div class="modal-body flex-grow-1">
           <div class="form-group">
-            <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
+            <label class="form-label" for="permission-display-name">Display Name</label>
             <input
               type="text"
-              class="form-control dt-full-name"
-              id="basic-icon-default-fullname"
-              placeholder="John Doe"
-              aria-label="John Doe"
+              class="form-control dt-display-name"
+              id="permission-display-name"
+              placeholder="Display nama"
+              aria-label="Display nama"
             />
           </div>
           <div class="form-group">
-            <label class="form-label" for="basic-icon-default-post">Post</label>
+            <label class="form-label" for="permission-name">Permission name</label>
             <input
               type="text"
-              id="basic-icon-default-post"
-              class="form-control dt-post"
-              placeholder="Web Developer"
-              aria-label="Web Developer"
+              id="permission-name"
+              class="form-control dt-name"
+              name="name"
+              placeholder="Name of permission"
+              aria-label="Name of Permission"
             />
           </div>
           <div class="form-group">
-            <label class="form-label" for="basic-icon-default-email">Email</label>
-            <input
-              type="text"
-              id="basic-icon-default-email"
-              class="form-control dt-email"
-              placeholder="john.doe@example.com"
-              aria-label="john.doe@example.com"
-            />
-            <small class="form-text text-muted"> You can use letters, numbers & periods </small>
+            <label class="form-label" for="basic-icon-default-email">Guard Type</label>
+            <select class="form-control" id="basicSelect" name="guard_name">
+              <option value="web" selected>WEB</option>
+              <option value="api">API</option>
+            </select>
           </div>
           <div class="form-group">
-            <label class="form-label" for="basic-icon-default-date">Joining Date</label>
-            <input
-              type="text"
-              class="form-control dt-date"
-              id="basic-icon-default-date"
-              placeholder="MM/DD/YYYY"
-              aria-label="MM/DD/YYYY"
-            />
-          </div>
-          <div class="form-group mb-4">
-            <label class="form-label" for="basic-icon-default-salary">Salary</label>
-            <input
-              type="text"
-              id="basic-icon-default-salary"
-              class="form-control dt-salary"
-              placeholder="$12000"
-              aria-label="$12000"
-            />
+            <label class="form-label" for="basic-icon-default-email">Parent Permission</label>
+            <select class="select2 form-control form-control-lg">
+              @foreach ($parent_permission as $item)
+                <option value="{{$item->id}}">{{$item->display_name}} | {{$item->name}}</option>
+              @endforeach
+            </select>
+            <small class="text-muted">eg.<i>permission without dash means header menu permission.</i></small>
           </div>
           <button type="button" class="btn btn-primary data-submit mr-1">Submit</button>
           <button type="reset" class="btn btn-outline-secondary" data-dismiss="modal">Cancel</button>
@@ -126,6 +114,7 @@
   <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.print.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
 @endsection
 @section('page-script')
   <script>
@@ -136,9 +125,8 @@
         $(function() {
             'use strict';
 
-            var //dt_basic_table = $('.datatables-basic'),
-                //dt_date_table = $('.dt-date'),
-                //dt_complex_header_table = $('.dt-complex-header'),
+            var select = $('.select2'),
+
                 dt_row_grouping_table = $('.dt-row-grouping'),
                 //dt_multilingual_table = $('.dt-multilingual'),
                 assetPath = '../../../app-assets/';
@@ -147,10 +135,22 @@
                 assetPath = $('body').attr('data-asset-path');
             }
 
+            select.each(function () {
+              var $this = $(this);
+              $this.wrap('<div class="position-relative"></div>');
+              $this.select2({
+                // the following code is used to disable x-scrollbar when click in select input and
+                // take 100% width in responsive also
+                dropdownAutoWidth: true,
+                width: '100%',
+                dropdownParent: $this.parent()
+              });
+            });
+
             // Row Grouping
             // --------------------------------------------------------------------
 
-            var groupColumn = 4;
+            var groupColumn = 5;
             if (dt_row_grouping_table.length) {
                 var groupingTable = dt_row_grouping_table.DataTable({
                     ajax: "{{ route('manage-permission') }}",
@@ -158,16 +158,19 @@
                         { data: 'id', name: 'id' },
                         { data: 'display_name', name: 'display_name' },
                         { data: 'name', name: 'name' },
+                        { data: 'guard_name', name: 'guard_name' }, 
                         { data: 'action', name: 'action', orderable: false, searchable: false },
                         { data: 'parent_name', name: 'parent_name' },
                     ],
-                    columnDefs: [{
-                            // For Responsive
-                            className: 'control',
-                            orderable: false,
-                            targets: 0
+                    columnDefs: [
+                        { 
+                          visible: false, 
+                          targets: groupColumn 
                         },
-                        { visible: false, targets: groupColumn }
+                        {
+                          targets:-2,
+                          width:"50px"
+                        }
                     ],
                     order: [
                         [groupColumn, 'asc']

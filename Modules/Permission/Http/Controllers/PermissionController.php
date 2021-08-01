@@ -37,6 +37,7 @@ class PermissionController extends Controller
         $data['breadcrumbs'] = [
             ['link' => "/", 'name' => "Dashboard"], ['link' => "javascript:void(0)", 'name' => "Permission"]
         ];
+        $data['parent_permission'] = $this->permissionRepository->getAllIdAndDiplayName();
         if ($request->ajax())
         {
             $data = $this->permissionRepository->getAllWithParentName();
@@ -64,11 +65,9 @@ class PermissionController extends Controller
             
             return Datatables::of($data)
                     ->addColumn('action', function($row) use ($buttonList){
-                        // $btn = $this->button->dropDownButtonIconOnly($buttonList, $row->id);
+                        $btn = $this->button->dropDownButtonTextOnly($buttonList, $row->id);
                         // $btn = $btn.$this->button->editButtonIconOnly('edit', 'manage-permission', $row->id);
-                        return '<button type="button" class="btn btn-icon btn-flat-success">
-                        <i data-feather="camera"></i>
-                      </button>';
+                        return $btn;
                     })
                     ->rawColumns(['action','parent_name'])
                     ->make(true);

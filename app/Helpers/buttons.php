@@ -34,6 +34,25 @@ class Button {
 		return $button;
 	}
 
+	public static function dropDownButtonTextOnly($buttonAction, $id)
+	{
+		$button = '<div class="d-inline-flex">';
+		$button = $button.'<a class="btn btn-primary dropdown-toggle hide-arrow text-primary waves-effect" data-toggle="dropdown">More</a>';
+		$button = $button.'<div class="dropdown-menu dropdown-menu-left">';
+
+		foreach($buttonAction as $row){
+			if($row['name'] == 'delete') {
+				$btn = '<form method="DELETE" route="'.route($row['route'], $id).'" style="display:inline"><a type="submit" class="dropdown-item">'.$row['display_name'].'</a></form>';
+			} else {
+				$btn = '<a href="'.route($row['route'], $id).'" class="dropdown-item">'.$row['display_name'].'</a>';
+			}
+			$button = $button.$btn;
+		}
+		$button = $button.'</div></div>';
+
+		return $button;
+	}
+
 	public static function editButtonIconOnly($icon, $route, $id)
 	{
 		return '<a href="'.route($route, $id).'" class="btn btn-icon btn-icon rounded-circle btn-flat-success"><i data-feather="'.$icon.'"></i></a>';
